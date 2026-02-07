@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="icon" type="image/x-icon" href="file_00000000f5cc71fa914cc7de13b2cd3e.jpg">
+    
+    <title>NYKEMPIER website</title>
+    <meta name="description" content="Welcome to the official NYKEMPIER arena. Join our Discord for exclusive matches, rewards, and community events.">
+
+    <style>
+        :root {
+            --neon-blue: #00d2ff;
+            --bg-dark: #0a0b10;
+            --glass: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Orbitron', sans-serif; }
+
+        body {
+            background: radial-gradient(circle at top, #1a1c2c 0%, var(--bg-dark) 100%);
+            color: white;
+            min-height: 100vh;
+        }
+
+        /* HEADER */
+        header { 
+            display: flex; justify-content: space-between; align-items: center; 
+            padding: 15px 5%; background: var(--glass); backdrop-filter: blur(10px); 
+            border-bottom: 1px solid var(--neon-blue); position: sticky; top: 0; z-index: 1000; 
+        }
+        .header-left { display: flex; align-items: center; gap: 15px; }
+        .menu-btn { cursor: pointer; display: flex; flex-direction: column; gap: 6px; }
+        .menu-btn span { width: 30px; height: 2px; background: var(--neon-blue); box-shadow: 0 0 10px var(--neon-blue); }
+        .logo { display: flex; align-items: center; gap: 10px; font-size: 1.8rem; font-weight: 900; letter-spacing: 5px; text-shadow: 0 0 10px var(--neon-blue); cursor: pointer; }
+        .logo img { height: 40px; width: auto; border-radius: 4px; }
+        .ad-box { border: 1px dashed var(--neon-blue); padding: 5px 15px; font-size: 12px; color: var(--neon-blue); border-radius: 5px; }
+
+        /* SIDEBAR */
+        #sidebar { 
+            position: fixed; left: -320px; top: 0; width: 300px; height: 100%; 
+            background: rgba(10,11,16,0.98); border-right: 2px solid var(--neon-blue); 
+            transition: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); z-index: 1001; 
+            padding: 30px 20px; overflow-y: auto;
+        }
+        #sidebar.active { left: 0; }
+        .close-arrow { font-size: 2.5rem; color: var(--neon-blue); cursor: pointer; margin-bottom: 20px; display: inline-block; }
+        
+        .sb-heading { color: var(--neon-blue); font-size: 0.7rem; letter-spacing: 3px; margin-top: 25px; margin-bottom: 15px; opacity: 0.8; }
+        #sidebar ul { list-style: none; }
+        #sidebar li { margin: 12px 0; border-bottom: 1px solid var(--glass-border); padding-bottom: 8px; }
+        #sidebar a { color: #fff; text-decoration: none; font-size: 0.85rem; transition: 0.3s; letter-spacing: 1px; text-transform: uppercase; display: block; text-decoration: none; cursor: pointer; }
+        #sidebar a:hover { color: var(--neon-blue); padding-left: 10px; text-shadow: 0 0 10px var(--neon-blue); }
+
+        #account-settings { display: none; margin-top: 10px; padding: 15px; background: rgba(255, 255, 255, 0.05); border-radius: 10px; border: 1px solid #444; }
+        #account-settings input, #account-settings select { width: 100%; margin-top: 8px; background: #111; color: white; border: 1px solid #555; padding: 8px; border-radius: 5px; font-size: 0.8rem; outline: none; }
+        #account-settings label { font-size: 0.65rem; color: var(--neon-blue); letter-spacing: 1px; }
+
+        .id-section { margin-top: 30px; display: flex; align-items: center; justify-content: space-between; background: var(--glass); padding: 15px; border-radius: 10px; border: 1px solid var(--glass-border); }
+        .dp-box { width: 35px; height: 35px; background: var(--neon-blue); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: black; font-weight: bold; font-size: 1.2rem; }
+
+        /* PAGE SYSTEM */
+        .page { display: none; padding: 80px 5%; text-align: center; }
+        .page.active { display: block; }
+        .content-box { background: var(--glass); padding: 40px; border-radius: 20px; border: 1px solid var(--glass-border); backdrop-filter: blur(5px); max-width: 800px; margin: 0 auto; }
+        .content-box h2 { color: var(--neon-blue); margin-bottom: 20px; font-size: 1.5rem; letter-spacing: 2px; }
+
+        .email-form { text-align: left; background: #111; padding: 20px; border-radius: 10px; border: 1px solid #333; }
+        .email-form input, .email-form textarea { width: 100%; padding: 12px; margin-bottom: 10px; background: transparent; border: none; border-bottom: 1px solid #333; color: white; outline: none; font-family: sans-serif; font-size: 14px; }
+        .send-btn { background: #0b57d0; color: white; border: none; padding: 10px 30px; border-radius: 20px; cursor: pointer; font-weight: bold; margin-top: 10px; display: inline-block; text-decoration: none; }
+
+        .price-grid { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; margin-top: 20px; }
+        .price-item { background: var(--glass); border: 1px solid var(--neon-blue); padding: 20px; border-radius: 15px; width: 230px; }
+        .amt { font-size: 1.4rem; font-weight: bold; color: #fff; margin-top: 10px; }
+
+        .yt-frame { width: 100%; height: 450px; border: 1px solid var(--neon-blue); border-radius: 10px; margin-top: 20px; }
+
+        .overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 1000; }
+        .overlay.active { display: block; }
+
+        /* Discord Integration Styles */
+        #discord-widget-box { margin-top: 30px; padding: 20px; background: rgba(88, 101, 242, 0.1); border: 1px solid #5865F2; border-radius: 15px; display: none; }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <header>
+        <div class="header-left">
+            <div class="menu-btn" onclick="toggleNav()">
+                <span></span><span></span><span></span>
+            </div>
+            <div class="logo" onclick="showPage('home')">
+                <img src="file_00000000f5cc71fa914cc7de13b2cd3e.jpg" alt="">
+                NYKEMPIER
+            </div>
+        </div>
+        <div class="ad-box">AD</div>
+    </header>
+
+    <div id="sidebar">
+        <div class="close-arrow" onclick="toggleNav()">←</div>
+        <div class="sb-heading">NAVIGATION</div>
+        <ul>
+            <li><a onclick="showPage('home')">HOME</a></li>
+            <li><a onclick="showPage('reg')">REGISTRATION FOR MATCH</a></li>
+            <li><a onclick="showPage('moments')">BEST MOMENT</a></li>
+            <li><a onclick="showPage('price')">PRICE DETAILS</a></li>
+            <li><a onclick="showPage('bug')">BUG REPORT</a></li>
+        </ul>
+
+        <div class="sb-heading">SOCIAL & HELP</div>
+        <ul>
+            <li><a href="https://discord.gg/yC5Tn9Krg6" target="_blank">Discord</a></li>
+            <li><a href="https://www.youtube.com/@nykempire" target="_blank">YouTube</a></li>
+            <li><a href="https://www.instagram.com/nykempire" target="_blank">Instagram</a></li>
+            <li><a onclick="showPage('support')" style="color: var(--neon-blue); font-weight: bold;">SUPPORT</a></li>
+            <li><a onclick="toggleAccount()" style="color: var(--neon-blue); font-weight: bold; cursor: pointer;">ACCOUNT</a></li>
+        </ul>
+
+        <div id="account-settings">
+            <label>EDIT NAME</label>
+            <input type="text" id="name-input" placeholder="Type name..." oninput="saveProfile()">
+            <label style="margin-top: 10px; display: block;">EDIT DP</label>
+            <select id="emoji-input" onchange="saveProfile()">
+                <option value="P">Default (P)</option>
+                <option value="🎮">🎮 Gamer</option>
+                <option value="🔥">🔥 Pro</option>
+                <option value="💀">💀 Ghost</option>
+                <option value="👑">👑 King</option>
+                <option value="⚡">⚡ Speed</option>
+            </select>
+        </div>
+
+        <div class="sb-heading">ABOUT ME</div>
+        <div style="font-size: 0.75rem; color: #b0b5d8; line-height: 1.6; margin-top: 10px; padding: 15px; background: var(--glass); border-radius: 8px; border-left: 2px solid var(--neon-blue);">Welcome to my official arena. I am the creator of NYKEMPIER.</div>
+        
+        <div class="id-section">
+            <span id="player-id-text" style="font-size: 0.8rem;">PLAYER</span>
+            <div class="dp-box" id="player-dp">P</div>
+        </div>
+    </div>
+
+    <div class="overlay" id="overlay" onclick="toggleNav()"></div>
+
+    <main id="home" class="page active">
+        <div class="content-box">
+            <h2>WELCOME TO NYKEMPIER</h2>
+            <p>hey 👋 viewer my self NYKEMPIER and this is my website but this is not the finel vision please join my discord or dm in Instagram for any issue and I recommend join my discord for more items</p>
+            
+            <div id="discord-widget-box">
+                <h3 id="guild-name" style="font-size: 1rem; color: #fff; margin-bottom: 10px;">LOADING DISCORD...</h3>
+                <p style="font-size: 0.85rem; margin-bottom: 15px;"><span style="color: #23a55a;">●</span> <span id="online-members">0</span> Members Online</p>
+                <a href="https://discord.gg/yC5Tn9Krg6" target="_blank" class="send-btn" style="background: #5865F2;">JOIN SERVER</a>
+            </div>
+        </div>
+    </main>
+
+    <main id="reg" class="page">
+        <div class="content-box">
+            <h2>MATCH REGISTRATION</h2>
+            <div class="email-form">
+                <div style="color:#666; font-size: 11px; margin-bottom:5px;">To: nyk.helpline@gmail.com</div>
+                <input type="text" id="r-sub" value="Match Registration">
+                <textarea id="r-msg" rows="6">Your Real Name: 
+Your Number: 
+Your Age: </textarea>
+                <button class="send-btn" onclick="sendR()">Send Registration</button>
+            </div>
+        </div>
+    </main>
+
+    <main id="moments" class="page">
+        <div class="content-box">
+            <h2>BEST MOMENTS</h2>
+            <p>Watch latest highlights from my YouTube channel</p>
+            <iframe class="yt-frame" src="https://www.youtube.com/embed?listType=user_uploads&list=MINDLOP_CHANNEL_ID_HERE" frameborder="0" allowfullscreen></iframe>
+            <div style="margin-top:15px;">
+                <a href="https://www.youtube.com/@nykempire" target="_blank" class="send-btn">Visit Channel</a>
+            </div>
+        </div>
+    </main>
+
+    <main id="price" class="page">
+        <div class="content-box">
+            <h2>PRICE DETAILS</h2>
+            <div class="price-grid">
+                <div class="price-item"><h3 style="color:#ffd700;">1st Prize</h3><div class="amt">₹1,00,000</div></div>
+                <div class="price-item"><h3 style="color:#c0c0c0;">2nd Prize</h3><div class="amt">₹50,000</div></div>
+                <div class="price-item"><h3 style="color:#cd7f32;">3rd Prize</h3><div class="amt">₹25,000</div></div>
+            </div>
+        </div>
+    </main>
+
+    <main id="bug" class="page">
+        <div class="content-box">
+            <h2>BUG REPORT</h2>
+            <p>If you have any issue please contact us in nyk.helpline@gmail.com</p>
+            <a href="mailto:nyk.helpline@gmail.com?subject=Bug Report" class="send-btn">Email Us Now</a>
+        </div>
+    </main>
+
+    <main id="support" class="page">
+        <div class="content-box">
+            <h2>SUPPORT</h2>
+            <p>Facing any issue? Contact nyk.helpline@gmail.com</p>
+            <a href="mailto:nyk.helpline@gmail.com?subject=Support Request" class="send-btn">Email Us Now</a>
+        </div>
+    </main>
+
+    <script>
+        // Load LocalStorage on startup
+        window.addEventListener('DOMContentLoaded', () => {
+            loadProfile();
+            fetchDiscord();
+        });
+
+        function toggleNav() {
+            document.getElementById('sidebar').classList.toggle('active');
+            document.getElementById('overlay').classList.toggle('active');
+        }
+
+        function showPage(pId) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById(pId).classList.add('active');
+            if(document.getElementById('sidebar').classList.contains('active')) toggleNav();
+            window.scrollTo(0,0);
+        }
+
+        function toggleAccount() {
+            const settings = document.getElementById('account-settings');
+            settings.style.display = (settings.style.display === 'block') ? 'none' : 'block';
+        }
+
+        function saveProfile() {
+            const name = document.getElementById('name-input').value;
+            const emoji = document.getElementById('emoji-input').value;
+            
+            // UI Update
+            if(name.trim() !== "") {
+                document.getElementById('player-id-text').innerText = name.toUpperCase();
+            } else {
+                document.getElementById('player-id-text').innerText = "PLAYER";
+            }
+            document.getElementById('player-dp').innerText = emoji;
+
+            // LocalStorage Save
+            localStorage.setItem('playerName', name);
+            localStorage.setItem('playerEmoji', emoji);
+        }
+
+        function loadProfile() {
+            const savedName = localStorage.getItem('playerName');
+            const savedEmoji = localStorage.getItem('playerEmoji');
+
+            if (savedName !== null) {
+                document.getElementById('name-input').value = savedName;
+                document.getElementById('player-id-text').innerText = savedName.trim() !== "" ? savedName.toUpperCase() : "PLAYER";
+            }
+            if (savedEmoji !== null) {
+                document.getElementById('emoji-input').value = savedEmoji;
+                document.getElementById('player-dp').innerText = savedEmoji;
+            }
+        }
+
+        async function fetchDiscord() {
+            try {
+                const res = await fetch('https://discord.com/api/guilds/1438719919557447873/widget.json');
+                const data = await res.json();
+                if(data) {
+                    document.getElementById('discord-widget-box').style.display = 'block';
+                    document.getElementById('guild-name').innerText = data.name.toUpperCase();
+                    document.getElementById('online-members').innerText = data.presence_count;
+                }
+            } catch (err) {
+                console.error("Discord load error");
+            }
+        }
+
+        function sendR() {
+            const s = document.getElementById('r-sub').value;
+            const m = document.getElementById('r-msg').value;
+            window.location.href = `mailto:nyk.helpline@gmail.com?subject=${encodeURIComponent(s)}&body=${encodeURIComponent(m)}`;
+        }
+    </script>
+</body>
+</html>
